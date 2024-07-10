@@ -1,0 +1,14 @@
+# API
+requests				# HTTP request
+
+# Database
+SQLAlchemy				# Sql Engine (ORM)
+
+# Security
+bcrypt					# Hashing
+
+# Testing
+pytest					# For Testing
+
+# Misc
+python-dotenv				# Env File Reader

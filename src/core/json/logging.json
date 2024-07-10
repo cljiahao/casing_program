@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "simple": {
+      "format": "%(name)s : %(asctime)s | %(levelname)s | %(filename)s : %(lineno)s | %(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
+    }
+  },
+
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "stream": "ext://sys.stdout"
+    },
+
+    "info_file": {
+      "class": "logging.handlers.MyTimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "./log/info.log",
+      "when": "m",
+      "encoding": "utf8"
+    },
+
+    "error_file": {
+      "class": "logging.handlers.MyTimedRotatingFileHandler",
+      "level": "ERROR",
+      "formatter": "simple",
+      "filename": "./log/errors.log",
+      "when": "m",
+      "encoding": "utf8"
+    }
+  },
+
+  "loggers": {
+    "dev": {
+      "level": "DEBUG",
+      "handlers": ["console"],
+      "propagate": false
+    },
+    "stage": {
+      "level": "INFO",
+      "handlers": ["console", "info_file", "error_file"],
+      "propagate": false
+    },
+    "prod": {
+      "level": "ERROR",
+      "handlers": ["info_file", "error_file"],
+      "propagate": false
+    }
+  },
+
+  "root": {
+    "level": "DEBUG",
+    "handlers": ["console"]
+  }
+}
