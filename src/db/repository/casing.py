@@ -3,7 +3,7 @@ from sqlalchemy import delete, select, update
 from sqlalchemy.orm.session import Session
 
 from core.logging import logger
-from db.base import Containers
+from db.models.casing import Containers
 
 
 def check_cont_exists(db: Session, cont_input: str):
@@ -134,12 +134,12 @@ def update_reel_data(db: Session, reel_id: str, reel_data_input: dict):
         db.close()
 
 
-def delete_reel_data(db: Session, reel_input: str):
+def delete_reel_data(db: Session, lot_input: str):
     try:
-        db.execute(delete(Containers).where(Containers.ReelID == reel_input))
+        db.execute(delete(Containers).where(Containers.lotNo == lot_input))
         db.commit()
     except:
-        logger.error("Error deleting %s in database.", reel_input, exc_info=True)
+        logger.error("Error deleting %s in database.", lot_input, exc_info=True)
         db.rollback()
         raise
     finally:

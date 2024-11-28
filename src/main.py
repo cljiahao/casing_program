@@ -1,8 +1,6 @@
-from tkinter import *
-
 from db.initialize import db_initialize
 from db.session import engine
-from db.base_class import Base
+from db.base import Base
 from pages.ContainerScan import ContainerScan
 
 if __name__ == "__main__":

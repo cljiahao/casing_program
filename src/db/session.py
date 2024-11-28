@@ -18,9 +18,13 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-def get_db() -> Generator:
+def get_db() -> Generator[sessionmaker, None, None]:
+    """Provide a SQLAlchemy session for dependency injection in FastAPI."""
+    db = SessionLocal()
     try:
-        db = SessionLocal()
         yield db
+    except:
+        db.rollback()
+        raise
     finally:
         db.close()

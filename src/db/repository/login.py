@@ -4,7 +4,7 @@ from sqlalchemy import insert, select
 from sqlalchemy.orm.session import Session
 
 from core.logging import logger
-from db.base import Login, MESID
+from db.models.login import Login, MESID
 
 
 def retrieve_mesid(db: Session, id_input: str):
@@ -44,7 +44,8 @@ def get_login(db: Session, user_input: str):
 
 def create_login(db: Session, user_input: str, hash_input: str):
     try:
-        login = Login({"user": user_input, "password": hash_input})
+        login_data = {"user": user_input, "password": hash_input}
+        login = Login(**login_data)
         db.add(login)
         db.commit()
     except Exception as e:
