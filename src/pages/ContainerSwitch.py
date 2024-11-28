@@ -9,6 +9,10 @@ from tkinter import (
     Toplevel,
 )
 
+from apis.api_cm import (
+    api_get_empty,
+    api_set_empty_cont,
+)
 from core.logging import logger
 from db.repository.casing import (
     get_scan_reel_data,
