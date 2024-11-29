@@ -20,7 +20,7 @@
       "class": "logging.handlers.MyTimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "./log/info.log",
+      "filename": "info.log",
       "when": "m",
       "encoding": "utf8"
     },
@@ -29,7 +29,7 @@
       "class": "logging.handlers.MyTimedRotatingFileHandler",
       "level": "ERROR",
       "formatter": "simple",
-      "filename": "./log/errors.log",
+      "filename": "errors.log",
       "when": "m",
       "encoding": "utf8"
     }

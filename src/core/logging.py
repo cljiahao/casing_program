@@ -1,48 +1,60 @@
-import os
 import json
 import logging
-import logging.handlers
 import logging.config
+import logging.handlers
+from pathlib import Path
 from datetime import datetime as dt
 
-from core.config import settings
+from core.config import common_settings
 from core.directory import directory
 
 
-def change_name(default_name: str):
+class MyTimedRotatingFileHandler(logging.handlers.TimedRotatingFileHandler):
+    """Custom log handler that rotates log files daily and organizes them by month."""
 
-    _, tail = os.path.split(default_name)
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.namer = self.change_name
 
-    mth_fol = os.path.join(directory.log_path, dt.now().strftime("%b%Y"))
-    if not os.path.exists(mth_fol):
-        os.makedirs(mth_fol)
+    def change_name(self, default_name: str) -> str:
+        """Change the log filename to include the current month and year."""
+        file_path = Path(default_name)
+        tail = file_path.name
 
-    arr = tail.split(".")
-    ext = arr.pop(1)
-    fname = "_".join(arr) + f".{ext}"
+        # Ensure log directory and subdirectories exist
+        mth_fol = directory.log_dir / dt.now().strftime("%b%Y")
+        mth_fol.mkdir(parents=True, exist_ok=True)
 
-    new_name = os.path.join(mth_fol, fname)
+        # Construct new filename with the month-year prefix
+        arr = tail.split(".")
+        ext = arr.pop()
+        fname = "_".join(arr) + f".{ext}"
 
-    return new_name
+        return str(mth_fol / fname)
 
 
-def setup_logging():
+# Register the custom handler
+logging.handlers.MyTimedRotatingFileHandler = MyTimedRotatingFileHandler
 
-    if os.path.exists("./core/json/logging.json"):
-        with open("./core/json/logging.json", "rt") as f:
+
+def setup_logging() -> None:
+    """Set up logging configuration from a JSON file or default settings."""
+    logging_config_path = Path(__file__).parent / "json" / "logging.json"
+    if logging_config_path.exists():
+        with logging_config_path.open("rt") as f:
             config = json.load(f)
+        # Update file paths in the logging configuration
+        handlers = config.get("handlers", {})
+        for handler_config in handlers.values():
+            filename = handler_config.get("filename")
+            if filename:
+                handler_config["filename"] = str(directory.log_dir / filename)
+
         logging.config.dictConfig(config)
     else:
         logging.basicConfig(level=logging.INFO)
 
 
-class MyTimedRotatingFileHandler(logging.handlers.TimedRotatingFileHandler):
-    def __init__(self, **kwargs):
-        logging.handlers.TimedRotatingFileHandler.__init__(self, **kwargs)
-        self.namer = change_name
-
-
-logging.handlers.MyTimedRotatingFileHandler = MyTimedRotatingFileHandler
-
+# Setup logging and create logger instance
 setup_logging()
-logger = logging.getLogger(settings.ENV_STAGE)
+logger = logging.getLogger(common_settings.ENV_STAGE)

@@ -1,7 +1,7 @@
 from tkinter import BOTH
 from tkinter import Tk, Frame
 
-from apis.api_lot import api_get_lot_data
+from apis.api_pmss import api_get_lot_data
 from core.logging import logger
 from components.buttons import guiButtons
 from components.containers import guiCont, guiContId, guiContLot

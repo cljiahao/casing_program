@@ -2,20 +2,19 @@ import os
 import json
 import requests
 
-from core.config import settings
+from core.config import service_settings
 
 
-url_get_lot = f"{settings.PMSS_API_URL}/PMSS/rest/robotic/getLotStartData"
-url_complete_lot = f"{settings.PMSS_API_URL}/PMSS/rest/robotic/completeLot"
-url_update_cont = (
-    f"{settings.PMSS_API_URL}/mnt/vol2/dockerdata/pmss/users/pmss/conet/robotic/recv"
-)
+url_get_lot = f"{service_settings.PMSS_API_URL}/PMSS/rest/robotic/getLotStartData"
+url_complete_lot = f"{service_settings.PMSS_API_URL}/PMSS/rest/robotic/completeLot"
+url_update_cont = f"{service_settings.PMSS_API_URL}/mnt/vol2/dockerdata/pmss/users/pmss/conet/robotic/recv"
+
+headers = {"Content-Type": "application/json"}
 
 
 def api_get_lot_data(lot_no: str):
 
     payload = json.dumps({"dsn": "orMesPMSS", "lotNo": lot_no})
-    headers = {"Content-Type": "application/json"}
 
     response = requests.request("POST", url_get_lot, headers=headers, data=payload)
 
@@ -25,8 +24,6 @@ def api_get_lot_data(lot_no: str):
 def api_set_lot_data(data: dict):
 
     payload = json.dumps({"dsn": "orMesPMSS", "data": data})
-    print(payload)
-    headers = {"Content-Type": "application/json"}
 
     response = requests.request("POST", url_complete_lot, headers=headers, data=payload)
 

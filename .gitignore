@@ -59,14 +59,14 @@ ENV/
 env.bak/
 venv.bak/
 
-# Database
-**/*.db
+# Tests
+test/
+
+# Config
+config/
 
 # Logs
-**/log
+log/
 
 # VScode
-**/.vscode
-
-# Misc
-**/test.py
+.vscode

@@ -2,19 +2,29 @@ from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from core.config import settings
+from core.config import database_settings
+from core.directory import directory
 
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{settings.LOCAL_DB_PATH}"
+# Database URL configuration
+DB_NAME = f"{database_settings.DB_NAME}.db"
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{directory.config_dir}/{DB_NAME}"
+
+# Create SQLAlchemy engine
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )
 
+# Create session maker
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-def get_db() -> Generator:
+def get_db() -> Generator[sessionmaker, None, None]:
+    """Provide a SQLAlchemy session for dependency injection in FastAPI."""
+    db = SessionLocal()
     try:
-        db = SessionLocal()
         yield db
+    except:
+        db.rollback()
+        raise
     finally:
         db.close()

@@ -2,7 +2,7 @@ from datetime import datetime as dt
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from db.base_class import Base
+from db.base import Base
 
 
 class Containers(Base):
