@@ -91,7 +91,26 @@ class ContainerScan(Tk):
         self.cache = {"optcode": False, "lot": False, "contid": False}
 
     def switch(self):
-        if Login("Login to Start Container Switch.").res:
+        try:
+            if Login("Login to Start Container Switch.").res:
+                lot_no = self.wos_entry["lotNo"].get()
+
+                # API call to server if lot exists
+                json = api_get_lot_data(lot_no)
+                if json["code"] != "0":
+                    raise LookupError(json["message"])
+
+                if ContainerSwitch(lot_no).res:
+                    guiContId(self.cont_frame, lot_no)
+                    clearValue(self.wos_entry["contid"])
+        except Exception as e:
+            logger.error(e, exc_info=True)
+            while True:
+                if Login(e.__str__()).res:
+                    break
+
+    def refresh(self):
+        try:
             lot_no = self.wos_entry["lotNo"].get()
 
             # API call to server if lot exists
@@ -99,31 +118,18 @@ class ContainerScan(Tk):
             if json["code"] != "0":
                 raise LookupError(json["message"])
 
-            if ContainerSwitch(lot_no).res:
-                guiContId(self.cont_frame, lot_no)
-                clearValue(self.wos_entry["contid"])
+            lot_data = json["data"]
+            reel_ids = lot_data.pop("ReelID")
 
-    def refresh(self):
-        lot_no = self.wos_entry["lotNo"].get()
-
-        # API call to server if lot exists
-        json = api_get_lot_data(lot_no)
-        if json["code"] != "0":
-            raise LookupError(json["message"])
-
-        lot_data = json["data"]
-        reel_ids = lot_data.pop("ReelID")
-
-        # TODO: Question: Refresh need a pop up to show that it was refreshed?
-        try:
+            # TODO: Question: Refresh need a pop up to show that it was refreshed?
             validation = reelValidation(lot_no, reel_ids)
+            if validation:
+                raise ValueError(f"Reels not fully scanned. Missing {validation}.")
         except Exception as e:
             logger.error(e, exc_info=True)
             while True:
                 if Login(e.__str__()).res:
                     break
-        if validation:
-            raise ValueError(f"Reels not fully scanned. Missing {validation}.")
 
         guiContId(self.cont_frame, lot_no)
 
