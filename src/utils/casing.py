@@ -136,7 +136,7 @@ def contId(
                 raise ValueError(f"Wrong container ID: {cont_input} scanned.")
             api_set_empty_cont(cont_input)
     else:
-        raise LookupError(f"Container ID: {cont_id} not found in system.")
+        raise LookupError(f"Container ID: {cont_input} not found in system.")
 
     cache["contid"] = True
     wos_entry["Reelid"].focus()
