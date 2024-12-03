@@ -44,7 +44,7 @@ def guiContId(cont_frame: Frame, lot_input: str):
     can_cont_reels_cnt = get_cont_scan_reels_cnt(next(get_db()), lot_input)
 
     for widget in cont_frame.winfo_children():
-        if widget.winfo_name() == "Containers":
+        if widget.winfo_name() == "cont_id":
             widget.destroy()
 
     cont_id_frame = LabelFrame(

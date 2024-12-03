@@ -128,14 +128,15 @@ def contId(
     if json:
         res = True if json[0]["kbv016"] == "0" else False
         if not res:
-            if messagebox.askyesno(
+            # TODO Messagebox make bigger and vibrant
+            if not messagebox.askyesno(
                 title="Reset Container if not empty",
                 message="Is Container Empty?",
             ):
                 raise ValueError(f"Wrong container ID: {cont_input} scanned.")
             api_set_empty_cont(cont_input)
     else:
-        raise LookupError(f"Container ID: {cont_id} not found in system.")
+        raise LookupError(f"Container ID: {cont_input} not found in system.")
 
     cache["contid"] = True
     wos_entry["Reelid"].focus()
@@ -259,15 +260,20 @@ def endLot(lot_input: str, opt_code: str) -> bool:
         raise LookupError(json["message"])
 
     # Update container to server
-    for cont_id in cont_dict:
-        api_update_empty(cont_id)
+    end_lot_cont_ids = [{"nov062": cont_id} for cont_id in cont_dict.keys()]
+    api_update_empty(end_lot_cont_ids)
     # Remove data from database
-    for cont in containers:
-        delete_reel_data(next(get_db()), cont.ReelID)
+    delete_reel_data(next(get_db()), lot_input)
 
     #     dat_str = f"S20|{dt.now().strftime('%Y/%m/%d %H:%M:%S')}|{response["OptCode"]}|{contid}|1"
     #     dat_path = f"./data/{contid}.dat"
     #     write_dat(dat_path, dat_str)
     #     update_cont(dat_path)
+
+    # TODO Messagebox make bigger and vibrant
+    messagebox.showinfo(
+        title="Lot End Completed",
+        message="Lot End Completed. Please continue next lot.",
+    )
 
     return True
