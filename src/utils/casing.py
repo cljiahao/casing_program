@@ -128,7 +128,8 @@ def contId(
     if json:
         res = True if json[0]["kbv016"] == "0" else False
         if not res:
-            if messagebox.askyesno(
+            # TODO Messagebox make bigger and vibrant
+            if not messagebox.askyesno(
                 title="Reset Container if not empty",
                 message="Is Container Empty?",
             ):
