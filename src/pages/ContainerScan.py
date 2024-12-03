@@ -36,12 +36,16 @@ class ContainerScan(Tk):
         try:
             match key_name:
                 case "optcode":
+                    if len(input) > 7:
+                        return False
                     self.cache["optcode"] = False
                     if len(input) == 7:
                         self.cache["optcode"] = True
                         self.wos_entry["lotNo"].focus()
 
                 case "lotno":
+                    if len(input) > 10:
+                        return False
                     self.cache["lot"] = False
                     if len(input) == 10:
                         self.reel_per_box, self.reel_id = lotNo(
@@ -51,6 +55,8 @@ class ContainerScan(Tk):
                         guiContId(self.cont_frame, input)
 
                 case "contid":
+                    if len(input) > 10:
+                        return False
                     self.cache["contid"] = False
                     if len(input) == 10:
                         lot_no = self.wos_entry["lotNo"].get()
@@ -61,6 +67,8 @@ class ContainerScan(Tk):
 
                 case "reelid":
                     if len(input) == 15:
+                        if len(input) > 15:
+                            return False
                         lot_no = self.wos_entry["lotNo"].get()
                         reelId(
                             self.wos_entry,
