@@ -270,4 +270,10 @@ def endLot(lot_input: str, opt_code: str) -> bool:
     #     write_dat(dat_path, dat_str)
     #     update_cont(dat_path)
 
+    # TODO Messagebox make bigger and vibrant
+    messagebox.showinfo(
+        title="Lot End Completed",
+        message="Lot End Completed. Please continue next lot.",
+    )
+
     return True
