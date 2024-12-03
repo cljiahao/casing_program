@@ -260,11 +260,10 @@ def endLot(lot_input: str, opt_code: str) -> bool:
         raise LookupError(json["message"])
 
     # Update container to server
-    for cont_id in cont_dict:
-        api_update_empty(cont_id)
+    end_lot_cont_ids = [{"nov062": cont_id} for cont_id in cont_dict.keys()]
+    api_update_empty(end_lot_cont_ids)
     # Remove data from database
-    for cont in containers:
-        delete_reel_data(next(get_db()), cont.ReelID)
+    delete_reel_data(next(get_db()), lot_input)
 
     #     dat_str = f"S20|{dt.now().strftime('%Y/%m/%d %H:%M:%S')}|{response["OptCode"]}|{contid}|1"
     #     dat_path = f"./data/{contid}.dat"
