@@ -147,6 +147,7 @@ class ContainerSwitch(Toplevel):
                 messagebox.showerror(e.__str__())
 
             text = f"Update to new container completed. Please continue."
+            self.res = True
 
         self.info.config(text=text, bg=bg)
 
