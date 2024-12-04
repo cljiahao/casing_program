@@ -131,7 +131,13 @@ class ContainerSwitch(Toplevel):
     def update_db(self):
 
         bg = "palegreen"
-        if len(self.old_reel_data) or not len(self.new_reel_data):
+        old_cont_input = self.cont_dict["old"]["entry"].get()
+        new_cont_input = self.cont_dict["new"]["entry"].get()
+
+        if len(old_cont_input) != 10 or len(new_cont_input) != 10:
+            text = f"Please scan Container ID to transfer."
+            bg = "tomato"
+        elif len(self.old_reel_data) or not len(self.new_reel_data):
             text = f"Please scan all reels to transfer."
             bg = "tomato"
             logger.info(text)
