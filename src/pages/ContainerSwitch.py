@@ -105,6 +105,23 @@ class ContainerSwitch(Toplevel):
             if key == "old":
                 self.cont_dict["new"]["entry"].focus()
             else:
+                json = api_get_empty(cont_input)
+                if json:
+                    res = True if json[0]["kbv016"] == "0" else False
+                    if not res:
+                        # TODO Messagebox make bigger and vibrant
+                        if not messagebox.askyesno(
+                            title="Reset Container if not empty",
+                            message="Is Container Empty?",
+                        ):
+                            raise ValueError(
+                                f"Wrong container ID: {cont_input} scanned."
+                            )
+                        api_set_empty_cont(cont_input)
+                else:
+                    raise LookupError(
+                        f"Container ID: {cont_input} not found in system."
+                    )
                 self.cont_dict["reel"].focus()
         else:
             bg = "tomato"
