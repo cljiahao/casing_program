@@ -140,13 +140,13 @@ class ContainerSwitch(Toplevel):
         elif len(self.old_reel_data) or not len(self.new_reel_data):
             text = f"Please scan all reels to transfer."
             bg = "tomato"
-            logger.info(text)
         else:
             try:
                 for reel_data in self.new_reel_data:
                     reel_id = reel_data.ReelID
                     reel_dict = reel_data.__dict__
-                    del reel_dict["ReelID"]
+                    if "ReelID" in reel_dict:
+                        del reel_dict["ReelID"]
                     update_reel_data(next(get_db()), reel_id, reel_dict)
             except Exception as e:
                 logger.error("Unable to update reel data in database", exc_info=True)
@@ -154,6 +154,7 @@ class ContainerSwitch(Toplevel):
 
             text = f"Update to new container completed. Please continue."
 
+        logger.info(text)
         self.info.config(text=text, bg=bg)
 
     def win_config(self):
