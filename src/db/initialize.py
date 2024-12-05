@@ -8,10 +8,9 @@ from db.session import get_db
 
 def db_initialize():
     db = next(get_db())
-    mesid_exists = db.scalar(
-        select(func.count()).where(MESID.mesid == database_settings.ADMIN_MESID)
-    )
+    init_mesid = database_settings.ADMIN_MESID.lower()
+    mesid_exists = db.scalar(select(func.count()).where(MESID.mesid == init_mesid))
 
     if not mesid_exists:
-        db.execute(insert(MESID), {"mesid": database_settings.ADMIN_MESID})
+        db.execute(insert(MESID), {"mesid": init_mesid})
         db.commit()
