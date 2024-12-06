@@ -14,22 +14,33 @@ headers = {
     "x-api-key": service_settings.ROB_API_KEY,
 }
 
+# Specify connect and request timeout
+timeout = (5, 10)
+
 
 def api_get_registered(cont_id: str):
 
-    response = requests.request("GET", url_reg_cont + cont_id, headers=headers)
-    json = response.json()
+    try:
+        response = requests.request(
+            "GET", url_reg_cont + cont_id, headers=headers, timeout=timeout
+        )
+    except requests.ReadTimeout:
+        raise TimeoutError("CM Server unable to be reached")
 
-    return not json
+    return not response.json()
 
 
 def api_get_empty(cont_id: str):
 
-    response = requests.request("GET", url_empty_cont + cont_id, headers=headers)
-    json = response.json()
-    print(json)
+    try:
+        response = requests.request(
+            "GET", url_empty_cont + cont_id, headers=headers, timeout=timeout
+        )
+    except requests.ReadTimeout:
+        raise TimeoutError("CM Server unable to be reached")
 
-    return json
+    return response.json()
+
 
 
 def api_update_empty(cont_id: str | list):
@@ -37,7 +48,12 @@ def api_update_empty(cont_id: str | list):
         cont_id = [{"nov062": cont_id}]
     data = json.dumps(cont_id)
 
-    response = requests.request("POST", url_update_cont, headers=headers, data=data)
+    try:
+        response = requests.request(
+            "POST", url_update_cont, headers=headers, data=data, timeout=timeout
+        )
+    except requests.ReadTimeout:
+        raise TimeoutError("CM Server unable to be reached")
 
     return response.json()
 
@@ -48,6 +64,11 @@ def api_set_empty_cont(cont_id: str | list):
         cont_id = [{"nov062": cont_id}]
     data = json.dumps(cont_id)
 
-    response = requests.request("POST", url_set_empty, headers=headers, data=data)
+    try:
+        response = requests.request(
+            "POST", url_set_empty, headers=headers, data=data, timeout=timeout
+        )
+    except requests.ReadTimeout:
+        raise TimeoutError("CM Server unable to be reached")
 
     return response.json()
