@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 
@@ -6,7 +7,9 @@ class Directory:
 
     def __init__(self) -> None:
         """Initialize directory paths."""
-        self.base_dir = Path(__file__).resolve().parent.parent.parent
+        self.src_dir = Path(__file__).resolve().parent.parent
+
+        self.base_dir = self.src_dir.parent
 
         # Log folder
         self.log_dir = self.base_dir / "log"
@@ -25,6 +28,11 @@ class Directory:
                 folder.mkdir(parents=True, exist_ok=True)
             except Exception as e:
                 print(f"Failed to create directory {folder}: {e}")
+
+    def resource_path(self, relative_path):
+        """Get absolute path to resource, works for dev and for PyInstaller"""
+        base_path = Path(getattr(sys, "_MEIPASS", self.src_dir))
+        return base_path / relative_path
 
 
 # Instantiate Directory and create folders
