@@ -21,7 +21,7 @@
       "level": "INFO",
       "formatter": "simple",
       "filename": "info.log",
-      "when": "m",
+      "when": "midnight",
       "encoding": "utf8"
     },
 
@@ -30,7 +30,7 @@
       "level": "ERROR",
       "formatter": "simple",
       "filename": "errors.log",
-      "when": "m",
+      "when": "midnight",
       "encoding": "utf8"
     }
   },
