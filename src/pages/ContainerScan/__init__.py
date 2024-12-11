@@ -6,7 +6,8 @@ from core.constants import wos_labels
 from pages.ContainerScan.widgets.buttons import ScanButtons
 from pages.ContainerScan.widgets.container_info import ContainersInfo
 from pages.ContainerScan.widgets.wos import WOSInfo
-from utils.tk_windows import terminate, window_size
+from pages.OperatorCode import OperatorCode
+from utils.tk_windows import loop_till_approve, terminate, window_size
 
 
 class ContainerScan(Toplevel):
@@ -15,6 +16,7 @@ class ContainerScan(Toplevel):
         self.protocol("WM_DELETE_WINDOW", lambda: terminate(self))
         self.initialize(parent)
         self.win_config()
+        loop_till_approve(OperatorCode, self)
         self.add_widgets()
 
     def initialize(self, parent):
