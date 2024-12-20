@@ -37,8 +37,6 @@ def get_incomplete_cont(
 ) -> tuple[str, int] | None:
     """Retrieves the first incomplete container for the given lot and reel limit."""
 
-
-def get_incomplete_cont(db: Session, lot_input: str, reel_per_box: int):
     uncomplete_cont = db.execute(
         select(Containers.contid, func.count(Containers.ReelID))
         .where(Containers.lotNo == lot_no)
