@@ -16,6 +16,7 @@ class CustomMessageBox(Toplevel):
         self.add_widgets(message)
         # To ensure window stays on top and focused
         self.grab_set()
+        self.focus_set()
         self.mainloop()
 
     def initialize(self, parent, mode: str):
