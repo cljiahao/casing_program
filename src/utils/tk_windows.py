@@ -27,11 +27,11 @@ def image_resize(
     return ImageTk.PhotoImage(resize)
 
 
-def loop_till_approve(tk_window, *args) -> None:
+def loop_till_approve(tk_window, root, *args) -> None:
     """Loops until the given Tk window returns a truthy result for approval."""
 
     while True:
-        if tk_window(*args).res:
+        if tk_window(root, *args).res:
             break
 
 
