@@ -37,5 +37,5 @@ class CustomMessageBoxContent(Frame):
             text=message,
             wraplength=self.parent.win_size["width"] / 2,
             bg=self.parent.msgbox_mode["bg_color"],
-            font=font_size["L"],
+            font=font_size["XL"],
         ).grid(row=1, column=3, sticky=EW)
