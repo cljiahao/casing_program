@@ -90,12 +90,11 @@ def handle_reelid_entry(parent, prompt: str, prompt_length: int) -> bool:
     if prompt_length > 15:
         return False
     if prompt_length == 15:
+        cont_full = run_reel_id(grandparent, prompt)
         # Clear and refocus reel ID
         clear_value(parent.widgets["Reelid"])
-        parent.widgets["Reelid"].focus()
-        if run_reel_id(grandparent, prompt):
+        if cont_full:
             # Clear and refocus container ID
             clear_value(parent.widgets["contid"])
-            parent.widgets["contid"].focus()
 
     return True
