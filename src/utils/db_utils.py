@@ -7,8 +7,10 @@ def check_state(lot_no: str, cont_id: str, in_db: bool = False) -> bool:
 
     lot_cont_exists = set(check_cont_exists(next(get_db()), cont_id))
 
-    if not lot_cont_exists and in_db:
-        raise LookupError(f"Container ID: {cont_id} not found in system")
+    if not lot_cont_exists:
+        if in_db:
+            raise LookupError(f"Container ID: {cont_id} not found in local system")
+        raise LookupError(f"Container ID: {cont_id} not found in CM")
 
     if len(lot_cont_exists) > 1:
         raise ValueError(f"Container: {cont_id} tied to multiple lot in database")
