@@ -19,7 +19,7 @@ class OperatorCodeInfo(Frame):
     def win_config(self):
         self.config(bg="#DDD")
         self.columnconfigure(0, weight=1, uniform="a")
-        self.columnconfigure(3, weight=1, uniform="a")
+        self.columnconfigure(1, weight=1, uniform="a")
         self.rowconfigure(0, weight=1, uniform="a")
         self.rowconfigure(1, weight=1, uniform="a")
         self.reg_entry = (
@@ -36,11 +36,11 @@ class OperatorCodeInfo(Frame):
             fg="#CF352E",
             font=(*font_size["L"], "bold"),
             relief=RAISED,
-        ).grid(row=0, column=1, columnspan=2, pady=10, ipady=7, ipadx=5, sticky=EW)
+        ).grid(row=0, column=0, columnspan=2, pady=10, ipady=7, ipadx=5, sticky=EW)
 
         # MES ID
         Label(self, text="MES ID:", bg="#DDD", font=font_size["L"]).grid(
-            row=1, column=1
+            row=1, column=0
         )
         self.widgets["optcode"] = Entry(
             self,
@@ -49,6 +49,6 @@ class OperatorCodeInfo(Frame):
             validate="key",
             validatecommand=self.reg_entry,
         )
-        self.widgets["optcode"].grid(row=1, column=2, ipady=3, ipadx=20, pady=3)
+        self.widgets["optcode"].grid(row=1, column=1, ipady=3, ipadx=20, pady=3)
 
         self.widgets["optcode"].focus()
