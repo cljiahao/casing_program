@@ -1,5 +1,6 @@
 from tkinter import Toplevel
 
+from pages.OperatorCode.widgets.operator_code_buttons import OperatorCodeButtons
 from pages.OperatorCode.widgets.operator_code_info import OperatorCodeInfo
 from utils.tk_windows import terminate, window_size
 
@@ -32,11 +33,15 @@ class OperatorCode(Toplevel):
             f"{self.win_size['width']}x{self.win_size['height']}+{x_position}+{y_position}"
         )
         self.rowconfigure(0, weight=1)
-        self.rowconfigure(2, weight=1)
+        self.rowconfigure(3, weight=1)
         self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=10)
-        self.columnconfigure(2, weight=1)
+        self.columnconfigure(1, weight=7)
+        self.columnconfigure(2, weight=3)
+        self.columnconfigure(3, weight=1)
 
     def add_widgets(self):
         self.widgets["optcode_info"] = OperatorCodeInfo(self)
-        self.widgets["optcode_info"].grid(row=1, column=1)
+        self.widgets["optcode_info"].grid(row=1, column=1, columnspan=2)
+
+        self.widgets["optcode_buttons"] = OperatorCodeButtons(self)
+        self.widgets["optcode_buttons"].grid(row=2, column=2)
