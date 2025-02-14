@@ -100,12 +100,12 @@ def end_lot(parent):
 
         lot_data["Contid"] = cont_arr
 
-        # Submit completed lot data to PMSS
-        check_set_lot_data(lot_data)
-
         # Mark containers as not empty in CM
         end_lot_cont_ids = [{"nov062": cont_id} for cont_id in cont_dict.keys()]
         set_cont_not_empty(end_lot_cont_ids)
+
+        # Submit completed lot data to PMSS
+        check_set_lot_data(lot_data)
 
         # Remove the lot data from the database
         delete_reel_data(next(get_db()), lot_no)
