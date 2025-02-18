@@ -73,6 +73,9 @@ def handle_contid_entry(parent, prompt: str, prompt_length: int) -> bool:
 
     grandparent = parent.parent
 
+    if grandparent.cache["lotNo"].get() == "":
+        raise ValueError("Please Scan Lot No First")
+
     if prompt_length > 10:
         return False
     if prompt_length == 10:
@@ -86,6 +89,8 @@ def handle_reelid_entry(parent, prompt: str, prompt_length: int) -> bool:
     """Handles the reel ID input, including validations and refreshing the container widget."""
 
     grandparent = parent.parent
+    if grandparent.cache["contid"].get() == "":
+        raise ValueError("Please Scan Container ID First")
 
     if prompt_length > 15:
         return False
