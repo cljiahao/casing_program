@@ -64,7 +64,7 @@ def run_reel_id(root, reel_input: str) -> None:
 
     lot_no = root.cache["lotNo"].get()
     cont_id = root.cache["contid"].get()
-    reel_ids = root.reel_ids
+    reel_ids = root.get("reel_ids", [])
 
     # Check if reel_input in reel_ids from server
     if reel_input not in reel_ids:
