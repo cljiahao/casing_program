@@ -13,6 +13,7 @@ def callback(parent, prompt: str, name: str) -> bool:
         handle_exceptions(parent, e)
         # Clear the value of the widget matching the key
         key = next((k for k in parent.widgets.keys() if k.lower() == key_name), None)
+        print(f"key: {key} and {key_name}")
         if key:
             clear_value(parent.widgets[key])
         return True
@@ -52,8 +53,6 @@ def handle_lotno_entry(parent, prompt: str, prompt_length: int) -> bool:
 
     grandparent = parent.parent
 
-    if grandparent.cache["OptCode"].get() == "":
-        raise ValueError("Please Scan Operator ID First")
     if prompt_length > 10:
         return False
 
@@ -72,9 +71,8 @@ def handle_contid_entry(parent, prompt: str, prompt_length: int) -> bool:
     """Handles the container ID input, including validations and updating focus."""
 
     grandparent = parent.parent
-
-    if grandparent.cache["lotNo"].get() == "":
-        raise ValueError("Please Scan Lot No First")
+    print(f"prompt: {prompt}")
+    print(f"lotNo: {grandparent.cache['lotNo'].get()}")
 
     if prompt_length > 10:
         return False
@@ -89,8 +87,6 @@ def handle_reelid_entry(parent, prompt: str, prompt_length: int) -> bool:
     """Handles the reel ID input, including validations and refreshing the container widget."""
 
     grandparent = parent.parent
-    if grandparent.cache["contid"].get() == "":
-        raise ValueError("Please Scan Container ID First")
 
     if prompt_length > 15:
         return False
