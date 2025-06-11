@@ -59,7 +59,7 @@ def handle_lotno_entry(parent, prompt: str, prompt_length: int) -> bool:
     # Update background color based on input length
     bg_color = "red" if 0 < prompt_length < 10 else "gray94"
     if prompt_length == 10:
-        grandparent.reel_per_box, grandparent.reel_ids = run_lot_no(grandparent, prompt)
+        run_lot_no(grandparent, prompt)
         parent.widgets["contid"].focus()
 
     grandparent.widgets["cont_info"].widgets["lot_no"].config(bg=bg_color)
@@ -71,8 +71,6 @@ def handle_contid_entry(parent, prompt: str, prompt_length: int) -> bool:
     """Handles the container ID input, including validations and updating focus."""
 
     grandparent = parent.parent
-    print(f"prompt: {prompt}")
-    print(f"lotNo: {grandparent.cache['lotNo'].get()}")
 
     if prompt_length > 10:
         return False
