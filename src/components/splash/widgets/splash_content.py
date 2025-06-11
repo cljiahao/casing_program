@@ -20,6 +20,11 @@ class SplashContent(Frame):
         self.logo = image_resize(
             directory.resource_path(f"assets/brand.png"), self.parent.win_size, 0.77
         )
+        self.title_font = (
+            font_size["M"]
+            if self.parent.win_size["w_screen"] < 1500
+            else font_size["2XL"]
+        )
 
     def win_config(self):
         self.rowconfigure(0, weight=1, uniform="a")
@@ -29,7 +34,7 @@ class SplashContent(Frame):
 
     def add_widgets(self):
         Label(self, image=self.logo).grid(row=1, column=1, columnspan=2)
-        Label(self, text=common_settings.PROJECT_NAME, font=font_size["2XL"]).grid(
+        Label(self, text=common_settings.PROJECT_NAME, font=self.title_font).grid(
             row=2, column=1, columnspan=2, pady=(7, 3)
         )
         Label(self, text=common_settings.PROJECT_VERSION, font=font_size["XS"]).grid(

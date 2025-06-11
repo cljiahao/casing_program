@@ -21,9 +21,9 @@ class Splash(Tk):
     def win_config(self):
         self.config(bg="#777", bd=0)
         self.win_size = window_size(self)
-        self.win_size["width"] = int(self.win_size["w_screen"] / 3)
-        self.win_size["height"] = int(self.win_size["h_screen"] / 3)
-        x_position = int(self.win_size["w_screen"] / 3)
+        self.win_size["width"] = int(self.win_size["w_screen"] * 0.4)
+        self.win_size["height"] = int(self.win_size["h_screen"] * 0.4)
+        x_position = int(self.win_size["w_screen"] * 0.3)
         y_position = int(self.win_size["h_screen"] / 5)
         self.geometry(
             f"{self.win_size['width']}x{self.win_size['height']}+{x_position}+{y_position}"
