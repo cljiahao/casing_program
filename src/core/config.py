@@ -26,6 +26,8 @@ class DatabaseSettings(Settings):
 
     DB_NAME: str = Field(default="local")
     ADMIN_MESID: str = Field(default="")
+    ADMIN_USERNAME: str = Field(default="")
+    ADMIN_PASSWORD: str = Field(default="")
 
 
 class ServiceSettings(Settings):
