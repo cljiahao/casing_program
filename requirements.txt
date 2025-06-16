@@ -1,14 +1,14 @@
 # API
-requests				    # HTTP request
+requests==2.32.3				    # HTTP request
 
 # Database
-SQLAlchemy				    # Sql Engine (ORM)
+SQLAlchemy==2.0.40				    # Sql Engine (ORM)
 
 # Security
-bcrypt					    # Hashing
+bcrypt==4.3.0					    # Hashing
 
 # Testing
-pytest					    # For Testing
+pytest==8.3.5					    # For Testing
 
 # Misc
-python-dotenv				# Env File Reader
+python-dotenv==1.1.0				# Env File Reader
