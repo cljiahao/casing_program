@@ -1,14 +1,24 @@
-from utils.tk_windows import terminate
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from components.messagebox import CustomMessageBox
 
 
-def ask_yes_no(root, button_text: str):
+def ask_yes_no(parent: CustomMessageBox, button_text: str):
     """Set the response based on the button text and terminate the window."""
 
-    root.res = button_text.lower() == "yes"
-    terminate(root)
+    parent.res = button_text.lower() == "yes"
+    parent.destroy()
 
 
-def show_(root, *args):
+def show_(parent: CustomMessageBox, *args):
     """Terminate the window."""
 
-    terminate(root)
+    parent.destroy()
+
+
+button_map = {
+    "show": show_,
+    "askyesno": ask_yes_no,
+}
