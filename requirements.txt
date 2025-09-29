@@ -1,5 +1,6 @@
 # API
 requests==2.32.3				    # HTTP request
+pydantic==2.10.11				    # Data validation
 
 # Database
 SQLAlchemy==2.0.40				    # Sql Engine (ORM)
@@ -12,3 +13,4 @@ pytest==8.3.5					    # For Testing
 
 # Misc
 python-dotenv==1.1.0				# Env File Reader
+python-json-logger==3.3.0           # JSON Log Formatter
