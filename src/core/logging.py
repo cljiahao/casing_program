@@ -6,7 +6,7 @@ from pathlib import Path
 from datetime import datetime as dt
 
 from core.config import common_settings
-from core.directory import directory
+from core.directory_manager import directory_manager as dm
 
 
 class MyTimedRotatingFileHandler(logging.handlers.TimedRotatingFileHandler):
@@ -22,8 +22,8 @@ class MyTimedRotatingFileHandler(logging.handlers.TimedRotatingFileHandler):
         tail = file_path.name
 
         # Ensure log directory and subdirectories exist
-        mth_fol = directory.log_dir / dt.now().strftime("%b%Y")
-        mth_fol.mkdir(parents=True, exist_ok=True)
+        mth_fol = dm.log_dir / dt.now().strftime("%b%Y")
+        dm.create_directory(mth_fol)
 
         # Construct new filename with the month-year prefix
         arr = tail.split(".")
@@ -40,21 +40,38 @@ logging.handlers.MyTimedRotatingFileHandler = MyTimedRotatingFileHandler
 def setup_logging() -> None:
     """Set up logging configuration from a JSON file or default settings."""
     logging_config_path = Path(__file__).parent / "json" / "logging.json"
-    if logging_config_path.exists():
-        with logging_config_path.open("rt") as f:
-            config = json.load(f)
-        # Update file paths in the logging configuration
-        handlers = config.get("handlers", {})
-        for handler_config in handlers.values():
-            filename = handler_config.get("filename")
-            if filename:
-                handler_config["filename"] = str(directory.log_dir / filename)
+    if not logging_config_path.exists():
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            handlers=[logging.StreamHandler()],
+        )
+        return
 
-        logging.config.dictConfig(config)
-    else:
-        logging.basicConfig(level=logging.INFO)
+    with logging_config_path.open("rt", encoding="utf-8") as f:
+        config = json.load(f)
+
+    # Get handlers that are actually used by loggers
+    handlers = config.get("handlers", {})
+    loggers = config.get("loggers", {})
+
+    log_handlers = loggers[common_settings.ENVIRONMENT].get("handlers", [])
+
+    # Only update file paths for handlers that are actually used
+    for handler_name, handler_config in handlers.items():
+        if "filename" in handler_config and handler_name in log_handlers:
+            # Convert relative paths to absolute paths using log directory
+            original_filename = handler_config["filename"]
+            dm.create_directory(dm.log_dir)
+            absolute_path = dm.log_dir / original_filename
+
+            # Update the handler configuration
+            handler_config["filename"] = str(absolute_path)
+
+    # Apply the logging configuration
+    logging.config.dictConfig(config)
 
 
 # Setup logging and create logger instance
 setup_logging()
-logger = logging.getLogger(common_settings.ENV_STAGE)
+logger = logging.getLogger(common_settings.ENVIRONMENT)

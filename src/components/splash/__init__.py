@@ -1,13 +1,20 @@
-from tkinter import EW, NS, Tk
+from tkinter import EW, NS
+from tkinter import Tk
 
 from components.splash.widgets.splash_content import SplashContent
 from utils.tk_windows import window_size
 
 
 class Splash(Tk):
-    def __init__(self, main):
+    """
+    A custom Tkinter Tk root to start a splash screen before the Main Page / Screen.
+
+    Args:
+        main: Custom Tkinter Main Page / Screen.
+    """
+
+    def __init__(self, main) -> None:
         super().__init__()
-        self.initialize()
         self.win_config()
         self.add_widgets()
         # Hide title bar
@@ -15,10 +22,7 @@ class Splash(Tk):
         self.after(1000, self.withdraw)
         self.after(1500, main, self)
 
-    def initialize(self):
-        self.widgets = {}
-
-    def win_config(self):
+    def win_config(self) -> None:
         self.config(bg="#777", bd=0)
         self.win_size = window_size(self)
         self.win_size["width"] = int(self.win_size["w_screen"] * 0.4)
@@ -31,7 +35,5 @@ class Splash(Tk):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-    def add_widgets(self):
-
-        splash_message = SplashContent(self)
-        splash_message.grid(row=0, column=0, sticky=NS + EW)
+    def add_widgets(self) -> None:
+        SplashContent(self).grid(row=0, column=0, sticky=NS + EW)

@@ -1,15 +1,15 @@
 from datetime import datetime as dt
-from sqlalchemy import Integer, String
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from db.base import Base
 
 
 class Login(Base):
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=False)
+    id: Mapped[int] = mapped_column(primary_key=True, index=False)
     date: Mapped[dt] = mapped_column(default=dt.now)
-    user: Mapped[int] = mapped_column(String)
-    password: Mapped[int] = mapped_column(String)
+    user: Mapped[int] = mapped_column()
+    password: Mapped[int] = mapped_column()
 
 
 class MESID(Base):

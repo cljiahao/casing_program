@@ -5,9 +5,13 @@
     "simple": {
       "format": "%(name)s : %(asctime)s | %(levelname)s | %(filename)s : %(lineno)s | %(message)s",
       "datefmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "json": {
+      "class": "pythonjsonlogger.jsonlogger.JsonFormatter",
+      "format": "%(name)s  %(asctime)s %(levelname)s %(filename)s %(lineno)s %(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
     }
   },
-
   "handlers": {
     "console": {
       "class": "logging.StreamHandler",
@@ -15,46 +19,66 @@
       "formatter": "simple",
       "stream": "ext://sys.stdout"
     },
-
+    "info_console": {
+      "class": "logging.StreamHandler",
+      "level": "INFO",
+      "formatter": "json",
+      "stream": "ext://sys.stdout"
+    },
+    "error_console": {
+      "class": "logging.StreamHandler",
+      "level": "ERROR",
+      "formatter": "json",
+      "stream": "ext://sys.stderr"
+    },
     "info_file": {
       "class": "logging.handlers.MyTimedRotatingFileHandler",
       "level": "INFO",
-      "formatter": "simple",
+      "formatter": "json",
       "filename": "info.log",
       "when": "midnight",
-      "encoding": "utf8"
+      "encoding": "utf8",
+      "delay": true
     },
-
     "error_file": {
       "class": "logging.handlers.MyTimedRotatingFileHandler",
       "level": "ERROR",
-      "formatter": "simple",
+      "formatter": "json",
       "filename": "errors.log",
       "when": "midnight",
-      "encoding": "utf8"
+      "encoding": "utf8",
+      "delay": true
     }
   },
-
   "loggers": {
     "dev": {
       "level": "DEBUG",
-      "handlers": ["console"],
+      "handlers": [
+        "console",
+        "info_file",
+        "error_file"
+      ],
       "propagate": false
     },
-    "stage": {
+    "uat": {
       "level": "INFO",
-      "handlers": ["console", "info_file", "error_file"],
+      "handlers": [
+        "info_console"
+      ],
       "propagate": false
     },
     "prod": {
-      "level": "ERROR",
-      "handlers": ["info_file", "error_file"],
+      "level": "INFO",
+      "handlers": [
+        "info_console"
+      ],
       "propagate": false
     }
   },
-
   "root": {
     "level": "DEBUG",
-    "handlers": ["console"]
+    "handlers": [
+      "console"
+    ]
   }
 }

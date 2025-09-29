@@ -51,7 +51,6 @@ def refresh(parent) -> None:
         lot_data = check_lot_exists(lot_no)
         reel_ids = lot_data.pop("ReelID")
 
-        # TODO: Question: Refresh need a pop up to show that it was refreshed?
         # Validate reels and update the GUI
         reel_validation(lot_no, reel_ids)
         refresh_reel_count_widget(parent, lot_no, lot_data)

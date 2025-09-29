@@ -1,5 +1,5 @@
-from apis.api_cm import api_get_empty, api_update_empty
-from apis.api_pmss import api_get_lot_data, api_set_lot_data
+from services.api_cm import api_get_empty, api_update_empty
+from services.api_pmss import api_get_lot_data, api_set_lot_data
 
 
 def check_lot_exists(lot_no: str) -> dict[str, str | list[str]]:
