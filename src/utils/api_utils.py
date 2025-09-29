@@ -34,7 +34,7 @@ def set_cont_not_empty(end_lot_cont_ids: list[str]) -> None:
     """Sets the containers as not empty by updating the system."""
 
     json = api_update_empty(end_lot_cont_ids)
-    if json:
-        raise LookupError("Something went wrong updating container")
-    # if json["code"] != "0":
-    #     raise LookupError(json["message"])
+    # if json:
+    #     raise LookupError("Something went wrong updating container")
+    if json["code"] != "0":
+        raise LookupError(json["message"])

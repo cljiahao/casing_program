@@ -64,9 +64,12 @@ def run_cont_id(root, cont_id: str) -> None:
 def run_reel_id(root, reel_input: str) -> None:
     """Validates and processes reel ID."""
 
+    if not hasattr(root, "cache") or root.cache is None:
+        raise AttributeError("Root object does not have a valid 'cache' attribute.")
+
     lot_no = root.cache["lotNo"].get()
     cont_id = root.cache["contid"].get()
-    reel_ids = root.cache["reel_ids"] if "reel_ids" in root.cache else []
+    reel_ids = root.cache.get("reel_ids", [])
 
     # Check if reel_input in reel_ids from server
     if reel_input not in reel_ids:
