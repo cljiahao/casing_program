@@ -1,27 +1,16 @@
-from pydantic import ConfigDict, Field
+from pydantic import Field
 from pydantic_settings import BaseSettings
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(dotenv_path=find_dotenv())
 
 
-class Settings(BaseSettings):
-    """Base settings configuration."""
-
-    __config__ = ConfigDict(
-        env_file=".env", env_file_encoding="utf-8", case_sensitive=True
-    )
-
-
-class CommonSettings(Settings):
+class CommonSettings(BaseSettings):
     """Common settings for the application."""
 
     PROJECT_NAME: str = Field(default="My Project")
     PROJECT_VERSION: str = Field(default="v1.0.0")
-    ENV_STAGE: str = Field(default="stage")
+    ENVIRONMENT: str = Field(default="dev")
 
 
-class DatabaseSettings(Settings):
+class DatabaseSettings(BaseSettings):
     """Database configuration settings."""
 
     DB_NAME: str = Field(default="local")
@@ -30,16 +19,17 @@ class DatabaseSettings(Settings):
     ADMIN_PASSWORD: str = Field(default="")
 
 
-class ServiceSettings(Settings):
+class ServiceSettings(BaseSettings):
     """Service-specific settings."""
 
     ROB_API_KEY: str = Field(default="")
-
     PMSS_API_URL: str = Field(default="")
     CM_API_URL: str = Field(default="")
 
 
 # Instantiate settings
 common_settings = CommonSettings()
-service_settings = ServiceSettings()
 database_settings = DatabaseSettings()
+service_settings = ServiceSettings()
+
+print(common_settings.PROJECT_NAME)
