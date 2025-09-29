@@ -2,7 +2,7 @@ from sqlalchemy import func
 from sqlalchemy import insert, select
 
 from core.config import database_settings
-from db.models.login import MESID
+from db.models.login import MESID, Login
 from db.session import get_db
 
 
@@ -18,6 +18,16 @@ def mesid_initialize() -> None:
     if not mesid_exists:
         # Insert the initial MESID if it does not exist
         db.execute(insert(MESID), {"mesid": init_mesid})
+        db.commit()
+
+    init_username = database_settings.ADMIN_USERNAME
+    init_password = database_settings.ADMIN_PASSWORD
+
+    admin_exists = db.scalar(select(func.count()).where(Login.user == init_username))
+    if not admin_exists:
+        db.execute(
+            insert(Login), {"username": init_username, "password": init_password}
+        )
         db.commit()
 
 

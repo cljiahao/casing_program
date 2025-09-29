@@ -15,19 +15,17 @@ from utils.tk_helper import (
 )
 
 
-def run_lot_no(root, lot_no: str) -> tuple[int, list[dict]]:
+def run_lot_no(root, lot_no: str) -> None:
     """Processes the lot number and retrieves related data."""
 
     # Check if lot no exists in PMSS
     lot_data = check_lot_exists(lot_no)
 
-    reel_per_box = int(lot_data["reelPerBox"])
-    reel_ids = lot_data.pop("ReelID")
+    root.cache["reel_per_box"] = int(lot_data["reelPerBox"])
+    root.cache["reel_ids"] = lot_data.pop("ReelID")
 
     refresh_reel_count_widget(root, lot_no, lot_data)
     refresh_container_widget(root, lot_no)
-
-    return reel_per_box, reel_ids
 
 
 def run_cont_id(root, cont_id: str) -> None:
@@ -42,7 +40,9 @@ def run_cont_id(root, cont_id: str) -> None:
     check_state(lot_no, cont_id)
 
     # Retrieve uncomplete cont with reels below reelperbox from server
-    incomplete_cont = get_incomplete_cont(next(get_db()), lot_no, root.reel_per_box)
+    incomplete_cont = get_incomplete_cont(
+        next(get_db()), lot_no, root.cache["reel_per_box"]
+    )
     if incomplete_cont:
         cont_id_in_db, reel_count = incomplete_cont
         if cont_id_in_db != cont_id:
@@ -51,7 +51,9 @@ def run_cont_id(root, cont_id: str) -> None:
             )
 
     # Check if scanning into cont more than reelperbox from server
-    cont_full = check_cont_full(next(get_db()), lot_no, cont_id, root.reel_per_box)
+    cont_full = check_cont_full(
+        next(get_db()), lot_no, cont_id, root.cache["reel_per_box"]
+    )
     if cont_full:
         raise ValueError(f"Scanning more reels to full container: {cont_id}")
 
@@ -64,7 +66,7 @@ def run_reel_id(root, reel_input: str) -> None:
 
     lot_no = root.cache["lotNo"].get()
     cont_id = root.cache["contid"].get()
-    reel_ids = root.get("reel_ids", [])
+    reel_ids = root.cache["reel_ids"] if "reel_ids" in root.cache else []
 
     # Check if reel_input in reel_ids from server
     if reel_input not in reel_ids:
@@ -94,7 +96,9 @@ def run_reel_id(root, reel_input: str) -> None:
     root.cache["noOfReel"].set(f"{reel_count} / {no_of_reels}")
 
     # Check if container is now reelperbox from server
-    cont_full = check_cont_full(next(get_db()), lot_no, cont_id, root.reel_per_box)
+    cont_full = check_cont_full(
+        next(get_db()), lot_no, cont_id, root.cache["reel_per_box"]
+    )
 
     refresh_container_widget(root, lot_no)
 

@@ -17,7 +17,7 @@ def clear(parent) -> None:
     """Clears specific cache values in the parent GUI."""
 
     for key in parent.cache.keys():
-        if key.lower() not in ["optcode", "mcno"]:
+        if key.lower() not in ["optcode", "mcno", "reel_ids", "reel_per_box"]:
             parent.cache[key].set("")
     refresh_container_widget(parent, "")
     parent.widgets["wos_info"].widgets["lotNo"].focus()
