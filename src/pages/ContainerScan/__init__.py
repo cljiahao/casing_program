@@ -1,7 +1,7 @@
 from tkinter import EW, NS
 from tkinter import StringVar, Toplevel
 
-from core.constants import wos_labels
+from constants.wos import wos_labels
 
 from pages.ContainerScan.widgets.buttons import ScanButtons
 from pages.ContainerScan.widgets.container_info import ContainersInfo

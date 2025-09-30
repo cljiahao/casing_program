@@ -2,7 +2,7 @@ from tkinter import CENTER, EW, NS
 from tkinter import Entry, Frame, Label, LabelFrame
 
 
-from core.constants import font_size
+from constants.wos import font_size
 
 
 class ContainerInfo(Frame):

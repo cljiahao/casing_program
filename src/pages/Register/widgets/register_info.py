@@ -1,7 +1,7 @@
 from tkinter import EW, RAISED
 from tkinter import Entry, Frame, Label
 
-from core.constants import font_size
+from constants.wos import font_size
 from pages.Register.utils.callback import callback
 
 

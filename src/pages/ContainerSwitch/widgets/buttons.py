@@ -1,6 +1,6 @@
 from tkinter import Button, Frame
 
-from core.constants import font_size
+from constants.wos import font_size
 from pages.ContainerSwitch.utils.buttons import update_db
 from utils.tk_windows import terminate
 
