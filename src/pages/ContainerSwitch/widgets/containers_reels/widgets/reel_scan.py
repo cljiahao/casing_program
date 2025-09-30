@@ -1,7 +1,7 @@
 from tkinter import CENTER, EW, NS, W
 from tkinter import Entry, Frame, Label
 
-from constants.wos import font_size
+from constants.common import font_size
 
 
 class ReelScan(Frame):

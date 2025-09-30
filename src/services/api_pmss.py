@@ -53,7 +53,6 @@ def api_update_cont(file_path: str) -> bool:
 
     try:
         resp = requests.post(url_update_cont, files=files, timeout=timeout)
-        print(resp.content)
     except requests.ReadTimeout:
         raise TimeoutError("PMSS Server unable to be reached")
 

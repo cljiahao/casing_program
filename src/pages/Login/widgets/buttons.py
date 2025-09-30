@@ -1,6 +1,6 @@
 from tkinter import Button, Frame, Label
 
-from constants.wos import font_size
+from constants.common import font_size
 from pages.Login.utils.login_signup import login, register
 
 

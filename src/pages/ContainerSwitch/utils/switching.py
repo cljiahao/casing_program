@@ -1,6 +1,6 @@
 from tkinter import Label
 
-from constants.wos import font_size
+from constants.common import font_size
 
 
 def refresh_reel_frame(root, mode: str) -> None:

@@ -1,7 +1,7 @@
 from tkinter import EW, NS, RAISED
 from tkinter import Frame, Label
 
-from constants.wos import font_size
+from constants.common import font_size
 
 
 class SwitchInfo(Frame):

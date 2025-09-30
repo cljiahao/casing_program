@@ -2,7 +2,8 @@ from tkinter import E, W
 from tkinter import Label
 
 from components.messagebox import CustomMessageBox
-from constants.wos import wos_labels, font_size
+from constants.wos import wos_labels
+from constants.common import font_size
 from db.repository.casing import get_cont_scan_reels_cnt, get_scan_reels_cnt
 from db.session import get_db
 from services.api_cm import api_set_empty_cont

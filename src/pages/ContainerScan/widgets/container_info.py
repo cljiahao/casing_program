@@ -1,7 +1,7 @@
 from tkinter import EW, NS, W
 from tkinter import Label, LabelFrame
 
-from constants.wos import font_size
+from constants.common import font_size
 
 
 class ContainersInfo(LabelFrame):

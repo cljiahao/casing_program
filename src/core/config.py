@@ -31,5 +31,3 @@ class ServiceSettings(BaseSettings):
 common_settings = CommonSettings()
 database_settings = DatabaseSettings()
 service_settings = ServiceSettings()
-
-print(common_settings.PROJECT_NAME)

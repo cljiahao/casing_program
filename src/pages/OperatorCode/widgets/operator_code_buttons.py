@@ -2,7 +2,7 @@ import sys
 from tkinter import EW, NS, RAISED
 from tkinter import Button, Frame
 
-from constants.wos import font_size
+from constants.common import font_size
 from utils.tk_windows import terminate
 
 

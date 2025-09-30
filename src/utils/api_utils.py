@@ -24,7 +24,7 @@ def check_cont_empty(cont_id: str) -> bool:
 
 def check_set_lot_data(lot_data: dict[str, str | list[str]]) -> None:
     """Sets the lot data by making an API call to update the system."""
-    print(lot_data)
+
     json = api_set_lot_data(lot_data)
     if json["code"] != "0":
         raise LookupError(json["message"])

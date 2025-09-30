@@ -1,7 +1,8 @@
 from tkinter import CENTER, W
 from tkinter import Button, Entry, Label, LabelFrame
 
-from constants.wos import font_size, wos_labels
+from constants.common import font_size
+from constants.wos import wos_labels
 from pages.ContainerScan.utils.callback import callback
 from utils.tk_windows import clear_value
 

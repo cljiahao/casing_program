@@ -13,7 +13,7 @@ def callback(parent, prompt: str, name: str) -> bool:
         handle_exceptions(parent, e)
         # Clear the value of the widget matching the key
         key = next((k for k in parent.widgets.keys() if k.lower() == key_name), None)
-        print(f"key: {key} and {key_name}")
+        # print(f"key: {key} and {key_name}")
         if key:
             clear_value(parent.widgets[key])
         return True
